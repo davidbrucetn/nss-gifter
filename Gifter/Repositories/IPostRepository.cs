@@ -1,4 +1,5 @@
 ﻿using Gifter.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Gifter.Repositories
@@ -6,6 +7,7 @@ namespace Gifter.Repositories
     public interface IPostRepository
     {
         void Add(Post post);
+        List<Post> DateSearch(DateTime searchDate, bool sortDescending);
         void Delete(int id);
         List<Post> GetAll();
         List<Post> GetAllWithComments();
