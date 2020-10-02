@@ -20,7 +20,7 @@ namespace Gifter.Repositories
                 {
                     cmd.CommandText = @"
                 SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
-                       p.ImageUrl AS PostImageUrl, p.UserProfileId,
+                       p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
                        up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
                        up.ImageUrl AS UserProfileImageUrl
@@ -40,10 +40,10 @@ namespace Gifter.Repositories
                             Caption = DbUtils.GetString(reader, "Caption"),
                             DateCreated = DbUtils.GetDateTime(reader, "PostDateCreated"),
                             ImageUrl = DbUtils.GetString(reader, "PostImageUrl"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            UserProfileId = DbUtils.GetInt(reader, "PostUserProfileId"),
                             UserProfile = new UserProfile()
                             {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                Id = DbUtils.GetInt(reader, "PostUserProfileId"),
                                 Name = DbUtils.GetString(reader, "Name"),
                                 Email = DbUtils.GetString(reader, "Email"),
                                 DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
@@ -74,6 +74,7 @@ namespace Gifter.Repositories
                        up.ImageUrl AS UserProfileImageUrl,
 
                        c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId
+
                   FROM Post p
                        LEFT JOIN UserProfile up ON p.UserProfileId = up.id
                        LEFT JOIN Comment c on c.PostId = p.id
@@ -138,7 +139,7 @@ namespace Gifter.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT p.Title, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId AS PostUserProfileId,
+                         SELECT  p.Id AS PostId, p.Title, p.Caption, p.DateCreated, p.ImageUrl, p.UserProfileId AS PostUserProfileId,
                                 up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
                                 up.ImageUrl AS UserProfileImageUrl
                             FROM Post p 
@@ -256,7 +257,7 @@ namespace Gifter.Repositories
                 {
                     var sql =
                         @"SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
-                        p.ImageUrl AS PostImageUrl, p.UserProfileId,
+                        p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
                         up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
                         up.ImageUrl AS UserProfileImageUrl
@@ -287,10 +288,10 @@ namespace Gifter.Repositories
                             Caption = DbUtils.GetString(reader, "Caption"),
                             DateCreated = DbUtils.GetDateTime(reader, "PostDateCreated"),
                             ImageUrl = DbUtils.GetString(reader, "PostImageUrl"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            UserProfileId = DbUtils.GetInt(reader, "PostUserProfileId"),
                             UserProfile = new UserProfile()
                             {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                Id = DbUtils.GetInt(reader, "PostUserProfileId"),
                                 Name = DbUtils.GetString(reader, "Name"),
                                 Email = DbUtils.GetString(reader, "Email"),
                                 DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
@@ -315,10 +316,11 @@ namespace Gifter.Repositories
                 {
                     var sql =
                         @"SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
-                        p.ImageUrl AS PostImageUrl, p.UserProfileId,
+                        p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
                         up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
                         up.ImageUrl AS UserProfileImageUrl
+
                     FROM Post p 
                         LEFT JOIN UserProfile up ON p.UserProfileId = up.id
                     WHERE p.DateCreated >= @searchDate";
@@ -346,10 +348,10 @@ namespace Gifter.Repositories
                             Caption = DbUtils.GetString(reader, "Caption"),
                             DateCreated = DbUtils.GetDateTime(reader, "PostDateCreated"),
                             ImageUrl = DbUtils.GetString(reader, "PostImageUrl"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            UserProfileId = DbUtils.GetInt(reader, "PostUserProfileId"),
                             UserProfile = new UserProfile()
                             {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                Id = DbUtils.GetInt(reader, "PostUserProfileId"),
                                 Name = DbUtils.GetString(reader, "Name"),
                                 Email = DbUtils.GetString(reader, "Email"),
                                 DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
@@ -367,6 +369,7 @@ namespace Gifter.Repositories
 
         public void Add(Post post)
         {
+            
             using (var conn = Connection)
             {
                 conn.Open();
