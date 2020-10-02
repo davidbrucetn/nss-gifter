@@ -9,3 +9,5 @@
 1. Update your Gifter API to allow searching of Posts by title as illustrated in this chapter.
 2. Update the search endpoint to search by title and the caption.
 3. Add a new endpoint, /api/post/hottest?since=<SOME_DATE> that will return posts created on or after the provided date.
+### Book 3, Chap 6 Context API
+1. Allow the user to add a new post. Create a PostForm component in the components directory and include it in App.js so that it shows up above the list of posts. 
