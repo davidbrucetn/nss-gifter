@@ -1,8 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { PostContext } from "../providers/PostProvider";
+import { UserContext } from "../providers/UserProvider";
+import UserSelect from "./UserSelect";
 
 const PostForm = (props) => {
   const { addPost } = useContext(PostContext);
+  const { users, getAllUsers } = useContext(UserContext);
 
   //useState to determine if form is loading, so buttons will be disabled if true
   const [isLoading, setIsLoading] = useState(false);
@@ -22,16 +25,17 @@ const PostForm = (props) => {
 
     // React Input Number Type Isn't actually a number. This fixes it.
     stateToChange[evt.target.id] =
-      evt.target.type === "number"
+      evt.target.id === "userProfileId"
         ? parseInt(evt.target.value)
         : evt.target.value;
-
+    console.log(evt.target.id);
     setPost(stateToChange);
   };
 
-  const cancelPost = (evt) => {
-    props.history.push("/");
-  };
+  const userSelect = users.map((user) => ({
+    label: user.name,
+    value: user.id,
+  }));
 
   const constructNewPost = (evt) => {
     evt.preventDefault();
@@ -48,49 +52,57 @@ const PostForm = (props) => {
     }
   };
 
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
   return (
     !isLoading && (
       <>
-        <div className="div__container__form">
+        <div className="div__container__form--addPost">
+          <h3>Add a Post</h3>
           <form>
             <fieldset>
               <div className="formgrid">
-                <input
-                  type="number"
-                  required
-                  onChange={handleFieldChange}
-                  name="userProfileId"
+                {/* <UserSelect /> */}
+                <select
                   id="userProfileId"
                   value={newPost.userProfileId}
-                ></input>
+                  onChange={handleFieldChange}
+                >
+                  {userSelect.map((item) => (
+                    <option key={item.value} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
                 <label htmlFor="userProfileId">User Profile ID</label>
                 <input
                   type="text"
                   required
                   onChange={handleFieldChange}
                   id="title"
-                  value={newPost.name}
-                  placeholder="Post Title"
+                  value={newPost.title}
+                  placeholder="Title"
                 />
-                <label htmlFor="Title">Title</label>
                 <input
                   type="text"
                   required
                   onChange={handleFieldChange}
                   name="caption"
                   id="caption"
+                  placeholder="Caption"
                   value={newPost.caption}
                 ></input>
-                <label htmlFor="caption">Caption</label>
                 <input
                   type="text"
                   required
                   onChange={handleFieldChange}
                   name="imageUrl"
                   id="imageUrl"
+                  placeholder="Image URL"
                   value={newPost.imageUrl}
                 ></input>
-                <label htmlFor="imageUrl">Image Url</label>
                 <input
                   type="date"
                   required
@@ -109,14 +121,6 @@ const PostForm = (props) => {
                   onClick={constructNewPost}
                 >
                   Save
-                </button>
-                <button
-                  type="button"
-                  className="btn"
-                  disabled={isLoading}
-                  onClick={cancelPost}
-                >
-                  Nevermind
                 </button>
               </div>
             </fieldset>

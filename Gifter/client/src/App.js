@@ -2,13 +2,20 @@ import React from "react";
 import "./App.css";
 import PostForm from "./components/PostForm";
 import { PostProvider } from "./providers/PostProvider";
+import PostSearch from "./components/PostSearch";
 import PostList from "./components/PostList";
+import { UserProvider } from "./providers/UserProvider";
 
 function App() {
   return (
     <div className="App">
       <PostProvider>
-        <PostForm />
+        <div className="div__forms__container--app">
+          <UserProvider>
+            <PostForm />
+          </UserProvider>
+          <PostSearch />
+        </div>
         <PostList />
       </PostProvider>
     </div>
