@@ -11,3 +11,4 @@
 3. Add a new endpoint, /api/post/hottest?since=<SOME_DATE> that will return posts created on or after the provided date.
 ### Book 3, Chap 6 Context API
 1. Allow the user to add a new post. Create a PostForm component in the components directory and include it in App.js so that it shows up above the list of posts. 
+1b. MISC: Just for me, added User Profile DropDown in form.
