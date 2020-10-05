@@ -1,7 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import {
+  Form,
+  FormGroup,
+  Card,
+  CardBody,
+  Label,
+  Input,
+  Button,
+} from "reactstrap";
 import { PostContext } from "../providers/PostProvider";
 import { UserContext } from "../providers/UserProvider";
-import UserSelect from "./UserSelect";
 
 const PostForm = (props) => {
   const { addPost } = useContext(PostContext);
@@ -39,6 +48,9 @@ const PostForm = (props) => {
     value: user.id,
   }));
 
+  // Use this hook to allow us to programatically redirect users
+  const history = useHistory();
+
   const constructNewPost = (evt) => {
     evt.preventDefault();
     let fieldCount = 0; // up to 5
@@ -50,7 +62,10 @@ const PostForm = (props) => {
     } else {
       setIsLoading(true);
 
-      addPost(newPost);
+      addPost(newPost).then((p) => {
+        // Navigate the user back to the home route
+        history.push("/");
+      });
     }
   };
 

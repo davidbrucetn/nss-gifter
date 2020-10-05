@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
+import PostList from "./PostList";
 import UserSelect from "./UserSelect";
 
 const PostSearch = (props) => {
@@ -19,6 +21,10 @@ const PostSearch = (props) => {
     const selectBox = document.getElementById("userProfileId");
     return selectBox.value;
   };
+
+  // Use this hook to allow us to programatically redirect users
+  const history = useHistory();
+
   const searchThruPosts = (evt) => {
     evt.preventDefault();
     const userProfileId = checkSelect();
