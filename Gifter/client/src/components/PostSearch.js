@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { PostContext } from "../providers/PostProvider";
+import UserSelect from "./UserSelect";
 
 const PostSearch = (props) => {
   const { searchPosts } = useContext(PostContext);
@@ -14,14 +15,19 @@ const PostSearch = (props) => {
     props.history.push("/");
   };
 
+  const checkSelect = () => {
+    const selectBox = document.getElementById("userProfileId");
+    return selectBox.value;
+  };
   const searchThruPosts = (evt) => {
     evt.preventDefault();
+    const userProfileId = checkSelect();
     if (inputVal === "") {
       window.alert("You must enter a Search Value");
     } else {
       setIsLoading(true);
       console.log(inputVal);
-      searchPosts(inputVal);
+      searchPosts(inputVal, userProfileId);
     }
   };
 
@@ -41,6 +47,7 @@ const PostSearch = (props) => {
                   value={inputVal}
                   placeholder="Search Value"
                 />
+                <UserSelect />
               </div>
               <div className="div__task__buttons">
                 <button
