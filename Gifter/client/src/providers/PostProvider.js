@@ -6,14 +6,13 @@ export const PostProvider = (props) => {
   const [posts, setPosts] = useState([]);
 
   const getAllPosts = () => {
-    return fetch("/api/post")
+    return fetch("/api/post/GetWithComments")
       .then((res) => res.json())
       .then(setPosts);
   };
 
-  const searchPosts = (searchValue) => {
-    console.log(`/api/post/search?q=${searchValue}`);
-    return fetch(`/api/post/search?q=${searchValue}`)
+  const searchPosts = (searchValue, userProfileId) => {
+    return fetch(`/api/post/search?q=${searchValue}&user=${userProfileId}`)
       .then((res) => res.json())
       .then(setPosts);
   };

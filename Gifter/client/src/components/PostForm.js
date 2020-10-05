@@ -24,10 +24,12 @@ const PostForm = (props) => {
     const stateToChange = { ...newPost };
 
     // React Input Number Type Isn't actually a number. This fixes it.
-    stateToChange[evt.target.id] =
-      evt.target.id === "userProfileId"
-        ? parseInt(evt.target.value)
-        : evt.target.value;
+    if (evt.target.id === "userProfileIdForm") {
+      stateToChange["userProfileId"] = parseInt(evt.target.value);
+    } else {
+      stateToChange[evt.target.id] = evt.target.value;
+    }
+
     console.log(evt.target.id);
     setPost(stateToChange);
   };
@@ -66,10 +68,13 @@ const PostForm = (props) => {
               <div className="formgrid">
                 {/* <UserSelect /> */}
                 <select
-                  id="userProfileId"
+                  id="userProfileIdForm"
                   value={newPost.userProfileId}
                   onChange={handleFieldChange}
                 >
+                  <option key="0" value="0">
+                    Search by User
+                  </option>
                   {userSelect.map((item) => (
                     <option key={item.value} value={item.value}>
                       {item.label}

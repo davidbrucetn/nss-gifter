@@ -13,8 +13,8 @@ function App() {
         <div className="div__forms__container--app">
           <UserProvider>
             <PostForm />
+            <PostSearch />
           </UserProvider>
-          <PostSearch />
         </div>
         <PostList />
       </PostProvider>
