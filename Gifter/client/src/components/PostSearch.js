@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
+import PostList from "./PostList";
 import UserSelect from "./UserSelect";
 
 const PostSearch = (props) => {
@@ -11,14 +13,18 @@ const PostSearch = (props) => {
   //useState for event (local to PostForm) that will update the named fields of the object
   const [inputVal, setInputVal] = useState("");
 
+  // Use this hook to allow us to programatically redirect users
+  const history = useHistory();
+
   const cancelSearch = (evt) => {
-    props.history.push("/");
+    history.push("/");
   };
 
   const checkSelect = () => {
     const selectBox = document.getElementById("userProfileId");
     return selectBox.value;
   };
+
   const searchThruPosts = (evt) => {
     evt.preventDefault();
     const userProfileId = checkSelect();
@@ -57,6 +63,14 @@ const PostSearch = (props) => {
                   onClick={searchThruPosts}
                 >
                   Search Posts
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  disabled={isLoading}
+                  onClick={cancelSearch}
+                >
+                  Cancel Search
                 </button>
               </div>
             </fieldset>

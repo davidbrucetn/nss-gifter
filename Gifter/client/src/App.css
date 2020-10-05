@@ -28,6 +28,10 @@
   color: #61dafb;
 }
 
+.selected {
+  color: greenyellow;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
