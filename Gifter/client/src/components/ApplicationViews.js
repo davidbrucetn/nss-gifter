@@ -16,6 +16,7 @@ const ApplicationViews = () => {
 
       <Route path="/posts/search">
         <PostSearch />
+        <PostList />
       </Route>
 
       <Route path="/posts/:id">{/* TODO: POst Details Component */}</Route>
